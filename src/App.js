@@ -1,25 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import { Canvas, useLoader } from '@react-three/fiber'
+import { Environment, OrbitControls } from '@react-three/drei'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { Suspense } from 'react'
 
-function App() {
+export default function App() {
+  const gltf = useLoader(GLTFLoader, './antiutopiacube.glb')
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ width: '99vw', height: '99vh' }}>
+      <Canvas flat linear>
+        <Suspense fallback={null}>
+          <>
+            <primitive object={gltf.scene} scale={0.55} />
+          </>
+          <OrbitControls />
+          <Environment preset="sunset" background />
+        </Suspense>
+      </Canvas>
     </div>
-  );
+  )
 }
-
-export default App;
